@@ -10,5 +10,6 @@ export function get(lastware: Lastware) : express.RequestHandler {
         res.on("close", () => {
             lastware(req, res, true);
         });
+        next();
     }
 }

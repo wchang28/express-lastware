@@ -8,6 +8,7 @@ function get(lastware) {
         res.on("close", function () {
             lastware(req, res, true);
         });
+        next();
     };
 }
 exports.get = get;
