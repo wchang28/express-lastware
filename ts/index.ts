@@ -4,11 +4,10 @@ export type Lastware = (req: express.Request, res: express.Response, aborted: bo
 
 export function get(lastware: Lastware) : express.RequestHandler {
     return (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        req.on("end", () => {
-            lastware(req, res, false);
-        });
-        res.on("close", () => {
-            lastware(req, res, true);
+        res.on("finish", () => {
+            if (typeof lastware === "function") lastware(req, res, false);
+        }).on("close", () => {
+            if (typeof lastware === "function") lastware(req, res, true);
         });
         next();
     }
